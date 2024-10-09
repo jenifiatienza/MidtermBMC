@@ -1,0 +1,64 @@
+import 'package:flutter/material.dart';
+
+// Palitan ang stateful into stateless widget.
+class Counter extends StatelessWidget {
+  final VoidCallback onIncrement;
+
+  const Counter({
+    super.key,
+    required this.onIncrement,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        ElevatedButton(
+          onPressed: onIncrement, //  tawagin ang callback.
+          child: const Text('Increment'),
+        ),
+      ],
+    );
+  }
+}
+
+// Gumawa ng parent widget that manages the state.
+class CounterState extends StatefulWidget {
+  const CounterState({super.key});
+
+  @override
+  _CounterParentState createState() => _CounterParentState();
+}
+
+class _CounterParentState extends State<CounterState> {
+  int _counter = 0;
+
+  void _incrementCounter() {
+    setState(() {
+      _counter++;
+    });
+
+    // Dito makikita yung message when the button is pressed.
+    print('The button has been pressed.');
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Counter(
+        onIncrement: _incrementCounter, 
+      ),
+    );
+  }
+}
+
+void main() {
+  runApp(
+    const MaterialApp(
+      home: Scaffold(
+        body: CounterState(),
+      ),
+    ),
+  );
+}
